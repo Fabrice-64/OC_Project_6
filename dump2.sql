@@ -58,9 +58,10 @@ CREATE TABLE `customer` (
   `phone_number` varchar(10) NOT NULL,
   `fidelity_points` int DEFAULT '0',
   `customer_login` varchar(46) GENERATED ALWAYS AS (concat(`first_name`,`last_name`,right(`phone_number`,4))) VIRTUAL,
+  `password` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `customer_login_UNIQUE` (`customer_login`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +70,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` (`customer_id`, `first_name`, `last_name`, `e_mail`, `phone_number`, `fidelity_points`) VALUES (4,'Fabrice','Jaouen','fab.jaouen@gmail.com','0689436465',0),(5,'Allan','Neo','alneo@gmail.com','1472583690',0);
+INSERT INTO `customer` (`customer_id`, `first_name`, `last_name`, `e_mail`, `phone_number`, `fidelity_points`, `password`) VALUES (4,'Fabrice','Jaouen','fab.jaouen@gmail.com','0689436465',0,NULL),(5,'Allan','Neo','alneo@gmail.com','1472583690',0,NULL),(6,'Gus','Montauban','gusmontau@gmail.com','9876543210',0,'test');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +120,7 @@ CREATE TABLE `delivery_address` (
   PRIMARY KEY (`delivery_addressID`),
   KEY `FK_customerID_delivery` (`customerID`),
   CONSTRAINT `FK_customerID_delivery` FOREIGN KEY (`customerID`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,8 +129,32 @@ CREATE TABLE `delivery_address` (
 
 LOCK TABLES `delivery_address` WRITE;
 /*!40000 ALTER TABLE `delivery_address` DISABLE KEYS */;
-INSERT INTO `delivery_address` VALUES (1,4,'Adolfstrasse 50','Bonn','53111','4e étage'),(2,5,'Sesame Street 12','Paris','75012','3e étage droite');
+INSERT INTO `delivery_address` VALUES (1,4,'Adolfstrasse 50','Bonn','53111','4e étage'),(2,5,'Sesame Street 12','Paris','75012','3e étage droite'),(3,6,'4 rue du cinéma','Paris','75012','');
 /*!40000 ALTER TABLE `delivery_address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `directing_management`
+--
+
+DROP TABLE IF EXISTS `directing_management`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `directing_management` (
+  `directing_managementID` int NOT NULL AUTO_INCREMENT,
+  `login` varchar(45) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`directing_managementID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `directing_management`
+--
+
+LOCK TABLES `directing_management` WRITE;
+/*!40000 ALTER TABLE `directing_management` DISABLE KEYS */;
+/*!40000 ALTER TABLE `directing_management` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -219,6 +244,33 @@ LOCK TABLES `item_in_order` WRITE;
 /*!40000 ALTER TABLE `item_in_order` DISABLE KEYS */;
 INSERT INTO `item_in_order` (`menu_itemID`, `serial_number`, `pizza_size`, `applicable_ratio`, `item_quantity`, `unit_price_no_vat`, `unit_vat_amount`) VALUES (372,8,'maxi',1.800,1,6.600,0.363),(373,7,'N/A',1.000,2,3.900,0.780),(374,8,'N/A',1.000,4,0.660,0.036),(380,7,'normale',1.000,2,6.660,0.366);
 /*!40000 ALTER TABLE `item_in_order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item_pos`
+--
+
+DROP TABLE IF EXISTS `item_pos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `item_pos` (
+  `point_of_salesID` int NOT NULL,
+  `menu_itemID` int NOT NULL,
+  `available_in_pos` enum('y','n') DEFAULT NULL,
+  PRIMARY KEY (`point_of_salesID`,`menu_itemID`),
+  KEY `FK_menu_item_item_pos` (`menu_itemID`),
+  CONSTRAINT `FK_menu_item_item_pos` FOREIGN KEY (`menu_itemID`) REFERENCES `menu_item` (`menu_itemID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_pos_item_pos` FOREIGN KEY (`point_of_salesID`) REFERENCES `point_of_sales` (`point_of_salesID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item_pos`
+--
+
+LOCK TABLES `item_pos` WRITE;
+/*!40000 ALTER TABLE `item_pos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `item_pos` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -324,7 +376,7 @@ CREATE TABLE `menu_item` (
 
 LOCK TABLES `menu_item` WRITE;
 /*!40000 ALTER TABLE `menu_item` DISABLE KEYS */;
-INSERT INTO `menu_item` (`menu_itemID`, `item_id`, `available`, `gross_price`, `margin_rate`, `VAT_rate`) VALUES (372,'pizza Calzone','y',3.000,2.200,0.055),(373,'2113','y',1.500,2.600,0.200),(374,'681','y',0.300,2.200,0.055),(380,'pizza reine','y',3.700,1.800,0.055);
+INSERT INTO `menu_item` (`menu_itemID`, `item_id`, `available`, `gross_price`, `margin_rate`, `VAT_rate`) VALUES (372,'pizza Calzone','n',3.000,2.200,0.055),(373,'2113','n',1.500,2.600,0.200),(374,'681','y',0.300,2.200,0.055),(380,'pizza reine','y',3.700,1.800,0.055);
 /*!40000 ALTER TABLE `menu_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -660,10 +712,11 @@ CREATE TABLE `purchase_order` (
   `purchase_validation` enum('y','n') NOT NULL DEFAULT 'n',
   `payment_time` enum('immediate','on delivery') NOT NULL DEFAULT 'immediate',
   `desired_pos` enum('Paris') DEFAULT NULL,
+  `delivery_or_pos` enum('delivery','pos') NOT NULL DEFAULT 'delivery',
   PRIMARY KEY (`serial_number`),
   KEY `FK_customerID_order` (`customer_id`),
   CONSTRAINT `FK_customerID_order` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -672,7 +725,7 @@ CREATE TABLE `purchase_order` (
 
 LOCK TABLES `purchase_order` WRITE;
 /*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
-INSERT INTO `purchase_order` VALUES (7,4,'2020-06-13 19:35:39',2.300,23.400,'2020-06-13 20:13:01',NULL,'y','on delivery','Paris'),(8,5,'2020-06-13 19:36:04',0.800,15.300,'2020-06-13 20:30:00',NULL,'y','on delivery','Paris');
+INSERT INTO `purchase_order` VALUES (7,4,'2020-06-13 19:35:39',2.300,23.400,'2020-06-13 20:13:01',NULL,'y','on delivery','Paris','delivery'),(8,5,'2020-06-13 19:36:04',0.800,15.300,'2020-06-13 20:30:00',NULL,'y','on delivery','Paris','delivery'),(9,6,'2020-06-14 13:19:27',0.000,0.000,NULL,NULL,'n','immediate','Paris','delivery');
 /*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -690,6 +743,8 @@ CREATE TABLE `staff` (
   `last_name` varchar(45) NOT NULL,
   `phone_number` varchar(45) DEFAULT NULL,
   `private_email` varchar(45) DEFAULT NULL,
+  `login` varchar(45) NOT NULL DEFAULT 'N/A',
+  `password` varchar(100) NOT NULL DEFAULT 'N/A',
   PRIMARY KEY (`staffID`),
   KEY `FK_point_sales_staff` (`point_of_salesID`),
   CONSTRAINT `FK_point_sales_staff` FOREIGN KEY (`point_of_salesID`) REFERENCES `point_of_sales` (`point_of_salesID`)
@@ -702,7 +757,7 @@ CREATE TABLE `staff` (
 
 LOCK TABLES `staff` WRITE;
 /*!40000 ALTER TABLE `staff` DISABLE KEYS */;
-INSERT INTO `staff` VALUES (1,1,'Pierre','Dupont','1234567890','pierdupont@gmail.com'),(2,1,'Jean','Durand','0987654321','jeandurand@gmail.com'),(3,1,'Marcello','Dernet','8907654321','marceder@gmail.com'),(4,1,'Paul','Volfoni','1478523690','pvolfoni@audiard.com'),(5,1,'Raoul','Volfoni','3698521470','rvolfoni@audiard.com');
+INSERT INTO `staff` VALUES (1,1,'Pierre','Dupont','1234567890','pierdupont@gmail.com','N/A','N/A'),(2,1,'Jean','Durand','0987654321','jeandurand@gmail.com','N/A','N/A'),(3,1,'Marcello','Dernet','8907654321','marceder@gmail.com','N/A','N/A'),(4,1,'Paul','Volfoni','1478523690','pvolfoni@audiard.com','N/A','N/A'),(5,1,'Raoul','Volfoni','3698521470','rvolfoni@audiard.com','N/A','N/A');
 /*!40000 ALTER TABLE `staff` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1023,17 +1078,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateCustomer`(
                 IN input_street VARCHAR(60),
                 IN input_city VARCHAR(45),
                 IN input_zip_code VARCHAR(5),
-                IN input_access_details VARCHAR(45))
+                IN input_access_details VARCHAR(45),
+                IN input_password VARCHAR(12))
 BEGIN
 
 	INSERT INTO customer (first_name,
 						last_name,
 						e_mail,
-                        phone_number)
+                        phone_number,
+                        password)
 	VALUES (input_first_name,
 			input_last_name,
 			input_e_mail,
-            input_phone_number);
+            input_phone_number,
+            input_password);
 	
     INSERT INTO delivery_address (customerID,
 								street,
@@ -1122,7 +1180,7 @@ BEGIN
 	(SELECT p.name FROM product p WHERE p.product_code = item_id) AS 'nom produit',
     CONCAT(net_price, ' €') AS 'prix net'
     FROM menu_item
-    WHERE item_id NOT LIKE ('pizza%');
+    WHERE item_id NOT LIKE ('pizza%') AND available = 'y';
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1146,7 +1204,7 @@ BEGIN
         (SELECT name FROM pizza WHERE menu_item.item_id = pizza.name) AS 'Votre pizza',
         CONCAT(net_price, ' €', ' pizza taille normale') AS 'prix net'
         FROM menu_item
-        WHERE item_id  LIKE('%pizza%');
+        WHERE item_id  LIKE('%pizza%') AND available = 'y';
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1405,11 +1463,17 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PassOrder`(
 					IN input_customer_login VARCHAR(46),
-                    IN input_desired_pos ENUM('Paris'))
+                    IN input_password VARCHAR(12),
+                    IN input_desired_pos ENUM('Paris'),
+                    IN input_delivery_or_pos ENUM('delivery', 'pos'))
 BEGIN
-	INSERT INTO purchase_order (customer_id, desired_pos)
-    VALUES ((SELECT customer_id FROM customer WHERE customer.customer_login = input_customer_login),
-            input_desired_pos);
+	IF (SELECT c.password 
+		FROM customer c
+        WHERE c.customer_login = input_customer_login) = input_password THEN
+		INSERT INTO purchase_order (customer_id, desired_pos, delivery_or_pos)
+		VALUES ((SELECT customer_id FROM customer WHERE customer.customer_login = input_customer_login),
+				input_desired_pos, input_delivery_or_pos);
+	END IF;
     
 END ;;
 DELIMITER ;
@@ -1578,4 +1642,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-13 23:59:18
+-- Dump completed on 2020-06-15 10:45:55
