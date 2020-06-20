@@ -31,7 +31,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` (`customer_id`, `first_name`, `last_name`, `e_mail`, `phone_number`, `fidelity_points`, `password`) VALUES (4,'Fabrice','Jaouen','fab.jaouen@gmail.com','0689436465',0,NULL),(5,'Allan','Neo','alneo@gmail.com','1472583690',0,NULL),(6,'Gus','Montauban','gusmontau@gmail.com','9876543210',0,'test');
+INSERT INTO `customer` (`customer_id`, `first_name`, `last_name`, `e_mail`, `phone_number`, `fidelity_points`, `password`) VALUES (4,'Fabrice','Jaouen','fab.jaouen@gmail.com','0689436465',0,'test'),(5,'Allan','Neo','alneo@gmail.com','1472583690',0,'test'),(6,'Gus','Montauban','gusmontau@gmail.com','9876543210',0,'test');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `item_in_order` WRITE;
 /*!40000 ALTER TABLE `item_in_order` DISABLE KEYS */;
-INSERT INTO `item_in_order` (`menu_itemID`, `serial_number`, `pizza_size`, `applicable_ratio`, `item_quantity`, `unit_price_no_vat`, `unit_vat_amount`) VALUES (372,8,'maxi',1.800,1,6.600,0.363),(373,7,'N/A',1.000,2,3.900,0.780),(374,8,'N/A',1.000,4,0.660,0.036),(380,7,'normale',1.000,2,6.660,0.366);
+INSERT INTO `item_in_order` (`menu_itemID`, `serial_number`, `pizza_size`, `applicable_ratio`, `item_quantity`, `unit_price_no_vat`, `unit_vat_amount`) VALUES (372,8,'maxi',1.800,1,6.600,0.363),(373,7,'N/A',1.000,2,3.900,0.780),(374,8,'N/A',1.000,4,0.660,0.036),(380,7,'normale',1.000,2,6.660,0.366),(380,10,'maxi',1.800,3,6.660,0.366);
 /*!40000 ALTER TABLE `item_in_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +138,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `menu_item` WRITE;
 /*!40000 ALTER TABLE `menu_item` DISABLE KEYS */;
-INSERT INTO `menu_item` (`menu_itemID`, `item_id`, `available`, `gross_price`, `margin_rate`, `VAT_rate`) VALUES (372,'pizza Calzone','n',3.000,2.200,0.055),(373,'2113','n',1.500,2.600,0.200),(374,'681','y',0.300,2.200,0.055),(380,'pizza reine','y',3.700,1.800,0.055);
+INSERT INTO `menu_item` (`menu_itemID`, `item_id`, `available`, `gross_price`, `margin_rate`, `VAT_rate`) VALUES (372,'pizza Calzone','y',3.000,2.200,0.055),(373,'2113','y',1.500,2.600,0.200),(374,'681','y',0.300,2.200,0.055),(380,'pizza reine','y',3.700,1.800,0.055);
 /*!40000 ALTER TABLE `menu_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +148,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `order_status` WRITE;
 /*!40000 ALTER TABLE `order_status` DISABLE KEYS */;
-INSERT INTO `order_status` VALUES (7,'n',1,NULL,'pending'),(8,'n',1,NULL,'pending');
+INSERT INTO `order_status` VALUES (7,'n',1,NULL,'pending'),(8,'n',1,NULL,'pending'),(10,'n',1,NULL,'pending');
 /*!40000 ALTER TABLE `order_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,7 +158,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (10,7,2,4,'card',23.400,'N/A','2020-06-13 19:43:01'),(11,8,3,5,'cash',15.300,'N/A','2020-06-13 19:43:26');
+INSERT INTO `payment` VALUES (10,7,2,4,'card',23.400,'N/A','2020-06-13 19:43:01'),(11,8,3,5,'cash',15.300,'N/A','2020-06-13 19:43:26'),(12,10,5,4,'cash',37.900,'N/A','2020-06-20 10:19:50');
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +218,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `pos_product` WRITE;
 /*!40000 ALTER TABLE `pos_product` DISABLE KEYS */;
-INSERT INTO `pos_product` VALUES (1,'2113',64),(1,'681',57),(1,'71337',48),(1,'71339',49),(1,'71760',2);
+INSERT INTO `pos_product` VALUES (1,'14944',5),(1,'2113',64),(1,'681',57),(1,'71337',48),(1,'71339',49),(1,'71760',2);
 /*!40000 ALTER TABLE `pos_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +228,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES ('108',2,'Eau minérale pétillante Badoit Citron Vert','Eau Badoit Citron Vert par 33cl','n',0.000),('11704',3,'Bouteille d\'1l d\'huile d\'olives','Huile d\'Olive vierge Extra 1l','y',0.000),('1323',2,'Coca-Cola cannette','Coca-Cola cannette 33 cl','n',0.000),('14403',3,'Champignons de Paris','Champignon Hôtel en boite','y',0.000),('15545',3,'Olives Noires','Olive Noire Dénoyautée par 360g','y',0.000),('16613',3,'Pulpe de tomate','Pulpe de Tomates 8% matière sèche par 2,95kg','y',0.000),('2113',1,'Kronenbourg 1664','Bière Kronenbourg 1664 par 25cl','n',0.000),('2618',1,'Bière Carlsberg 33cl','Bière Carlsberg 33cl','n',0.000),('41405',3,'Anchois','Filets d\'anchois à l\'huile d\'olive par 580g','y',0.000),('48099',3,'Mozzarella','Mozzarella pin 1kg 23% MG','y',0.000),('48787',3,'Jambon Cuit','Jambon Cuit Standard DD 5 Kg','y',0.000),('681',2,'Bouteille cristaline 1/2l','Eau plate cristaline 50cl par 24','n',0.000),('71337',3,'Boule Pâte Normale','Boule Pâte à Pizza 160g','y',0.000),('71338',3,'Boule Pâte Grande','Boule de pâte à Pizza 200g','y',0.000),('71339',3,'Boule Pâte Maxi','Boule Pâte à Pizza 350g','y',0.000),('71760',3,'Basilic','Basilic Frais haché','y',0.000),('80280',3,'Emmental rapé','Emmental rapé Français 29% MG par 1kg','y',0.000),('80718',3,'Oeuf','Oeuf moyen alvéolé par 30pc','y',0.000),('80784',3,'Ricotta','Ricotta 6,5% MG 1,5kg/pc','y',0.000),('81913',3,'Mozzarella de Bufflone','Mozzarella di Buffala 22% MG','y',0.000);
+INSERT INTO `product` VALUES ('108',2,'Eau minérale pétillante Badoit Citron Vert','Eau Badoit Citron Vert par 33cl','n',0.000),('11704',3,'Bouteille d\'1l d\'huile d\'olives','Huile d\'Olive vierge Extra 1l','y',0.000),('1323',2,'Coca-Cola cannette','Coca-Cola cannette 33 cl','n',0.000),('14403',3,'Champignons de Paris','Champignon Hôtel en boite','y',0.000),('14944',3,'Farine','Farine de Blé Type 55 par 5 kg','y',0.000),('15545',3,'Olives Noires','Olive Noire Dénoyautée par 360g','y',0.000),('16613',3,'Pulpe de tomate','Pulpe de Tomates 8% matière sèche par 2,95kg','y',0.000),('2113',1,'Kronenbourg 1664','Bière Kronenbourg 1664 par 25cl','n',0.000),('2618',1,'Bière Carlsberg 33cl','Bière Carlsberg 33cl','n',0.000),('41405',3,'Anchois','Filets d\'anchois à l\'huile d\'olive par 580g','y',0.000),('48099',3,'Mozzarella','Mozzarella pin 1kg 23% MG','y',0.000),('48787',3,'Jambon Cuit','Jambon Cuit Standard DD 5 Kg','y',0.000),('681',2,'Bouteille cristaline 1/2l','Eau plate cristaline 50cl par 24','n',0.000),('71337',3,'Boule Pâte Normale','Boule Pâte à Pizza 160g','y',0.000),('71338',3,'Boule Pâte Grande','Boule de pâte à Pizza 200g','y',0.000),('71339',3,'Boule Pâte Maxi','Boule Pâte à Pizza 350g','y',0.000),('71760',3,'Basilic','Basilic Frais haché','y',0.000),('80280',3,'Emmental rapé','Emmental rapé Français 29% MG par 1kg','y',0.000),('80718',3,'Oeuf','Oeuf moyen alvéolé par 30pc','y',0.000),('80784',3,'Ricotta','Ricotta 6,5% MG 1,5kg/pc','y',0.000),('81913',3,'Mozzarella de Bufflone','Mozzarella di Buffala 22% MG','y',0.000);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,7 +238,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `product_item` WRITE;
 /*!40000 ALTER TABLE `product_item` DISABLE KEYS */;
-INSERT INTO `product_item` VALUES ('2020-06-01','71337',30,0.500,1),('2020-06-08','2113',64,0.200,1),('2020-06-08','71337',12,0.400,1),('2020-06-08','71760',1,0.000,1),('2020-06-09','681',33,0.250,1),('2020-06-09','71760',1,0.000,1),('2020-06-10','681',12,0.250,1),('2020-06-11','681',12,0.250,1);
+INSERT INTO `product_item` VALUES ('2020-06-01','71337',30,0.500,1),('2020-06-08','2113',64,0.200,1),('2020-06-08','71337',12,0.400,1),('2020-06-08','71760',1,0.000,1),('2020-06-09','681',33,0.250,1),('2020-06-09','71760',1,0.000,1),('2020-06-10','681',12,0.250,1),('2020-06-11','681',12,0.250,1),('2020-06-20','14944',5,0.300,1);
 /*!40000 ALTER TABLE `product_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,7 +257,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `purchase_order` WRITE;
 /*!40000 ALTER TABLE `purchase_order` DISABLE KEYS */;
-INSERT INTO `purchase_order` VALUES (7,4,'2020-06-13 19:35:39',2.300,23.400,'2020-06-13 20:13:01',NULL,'y','on delivery','Paris','delivery'),(8,5,'2020-06-13 19:36:04',0.800,15.300,'2020-06-13 20:30:00',NULL,'y','on delivery','Paris','delivery'),(9,6,'2020-06-14 13:19:27',0.000,0.000,NULL,NULL,'n','immediate','Paris','delivery');
+INSERT INTO `purchase_order` VALUES (7,4,'2020-06-13 19:35:39',2.300,23.400,'2020-06-13 20:13:01',NULL,'y','on delivery','Paris','delivery'),(8,5,'2020-06-13 19:36:04',0.800,15.300,'2020-06-13 20:30:00',NULL,'y','on delivery','Paris','delivery'),(9,6,'2020-06-14 13:19:27',0.000,0.000,NULL,NULL,'n','immediate','Paris','delivery'),(10,4,'2020-06-20 10:17:15',2.000,37.900,'2020-06-20 19:00:00',NULL,'y','on delivery','Paris','delivery');
 /*!40000 ALTER TABLE `purchase_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -277,7 +277,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `staff_task_order` WRITE;
 /*!40000 ALTER TABLE `staff_task_order` DISABLE KEYS */;
-INSERT INTO `staff_task_order` VALUES (7,1,'picker'),(7,2,'operator'),(8,2,'picker'),(8,3,'operator');
+INSERT INTO `staff_task_order` VALUES (7,1,'picker'),(7,2,'operator'),(8,2,'picker'),(8,3,'operator'),(10,5,'operator');
 /*!40000 ALTER TABLE `staff_task_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -310,4 +310,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-19  9:38:07
+-- Dump completed on 2020-06-20 10:35:53
